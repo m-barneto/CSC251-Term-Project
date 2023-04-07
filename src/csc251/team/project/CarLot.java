@@ -16,7 +16,7 @@ public class CarLot {
 	}
 
 	public CarLot(int capacity) {
-		this(capacity, "");
+		this(capacity, "inventory");
 	}
 	public CarLot(int capacity, String dbName) {
 		this.capacity = capacity;
@@ -30,7 +30,9 @@ public class CarLot {
 	
 	public void addCar(String id, int mileage, int mpg, double cost, double salesPrice) {
 		if (numberOfCars < capacity) {
-			this.inventory.add(new Car(id, mileage, mpg, cost, salesPrice));
+			Car car = new Car(id, mileage, mpg, cost, salesPrice);
+			this.inventory.add(car);
+			this.database.addCar(car);
 			numberOfCars++;
 		}
 	}
