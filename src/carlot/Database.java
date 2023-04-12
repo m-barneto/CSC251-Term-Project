@@ -11,7 +11,7 @@ public class Database {
         try {
             Connection conn = DbConnection.getConnection();
             Statement stmt = conn.createStatement();
-            
+
             stmt.executeUpdate(
                     "CREATE TABLE IF NOT EXISTS cars (" +
                     "car_id STRING PRIMARY KEY," +
