@@ -15,9 +15,10 @@ public class DbConnection {
     }
     public static Connection getConnection() {
         try {
-    		Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/CSC251", "scott", "tiger");
+    		Connection conn = DriverManager.getConnection("jdbc:sqlite:inventory.db");
             return conn;
         } catch (SQLException e) {
+            e.printStackTrace();
             return null;
         }
     }

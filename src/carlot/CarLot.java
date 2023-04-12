@@ -16,8 +16,11 @@ public class CarLot {
 
 	public CarLot(int capacity) {
 		this.capacity = capacity;
+		System.out.println("AAAAA");
 		this.database = new Database();
+		System.out.println("BBBB");
 		this.inventory = this.database.getCars();
+		System.out.println("CCCCCC");
 	}
 	public void addCar(String id, int mileage, int mpg, double cost, double salesPrice) {
 		if (numberOfCars < capacity) {
@@ -49,7 +52,9 @@ public class CarLot {
 	public void sellCar(String identifier, double priceSold) throws IllegalArgumentException {
 		Car aCar = this.findCarByIdentifier(identifier);
 		if (aCar != null) {
+
 			aCar.sellCar(priceSold);
+			database.updateCar(aCar);
 		} else {
 			throw new IllegalArgumentException("No car with identifier " + identifier);
 		}
