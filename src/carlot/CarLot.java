@@ -68,30 +68,46 @@ public class CarLot {
 		return allCars;
 	}
 	
-	public Car getCarWithBestMPG() {
-		Car rtn = null;
-		int bestMpg = -1;
-		for (int i = 0; i < numberOfCars; i++) {
-			Car aCar = this.inventory.get(i);
-			if (aCar.getMpg() > bestMpg) {
-				bestMpg = aCar.getMpg();
-				rtn = aCar;
-			}
-		}
-		return rtn;
+	public Car getCarWithBestMPG() throws SQLException {
+		
+        String query = "SELECT * FROM Car ORDER BY mpg DESC LIMIT 1";
+        Statement stmt = conn.createStatement();
+        ResultSet rs = stmt.executeQuery(query);
+
+        if (rs.next()) {
+        	
+            String id = rs.getString("id");
+            int mileage = rs.getInt("mileage");
+            int mpg = rs.getInt("mpg");
+            double cost = rs.getDouble("cost");
+            double salesPrice = rs.getDouble("sales_price");
+
+            Car car = new Car(id, mileage, mpg, cost, salesPrice);
+            return car;
+            
+        } else {
+            return null;
+        }
 	}
 	
-	public Car getCarWithHighestMileage() {
-		Car rtn = null;
-		int highestMileage = -1;
-		for (int i = 0; i < numberOfCars; i++) {
-			Car aCar = this.inventory.get(i);
-			if (aCar.getMileage() > highestMileage) {
-				highestMileage = aCar.getMileage();
-				rtn = aCar;
-			}
-		}
-		return rtn;
+	public Car getCarWithHighestMileage() throws SQLException {
+        String query = "SELECT * FROM Car ORDER BY mileage DESC LIMIT 1";
+        Statement stmt = conn.createStatement();
+        ResultSet rs = stmt.executeQuery(query);
+
+        if (rs.next()) {
+            String id = rs.getString("id");
+            int mileage = rs.getInt("mileage");
+            int mpg = rs.getInt("mpg");
+            double cost = rs.getDouble("cost");
+            double salesPrice = rs.getDouble("sales_price");
+
+            Car car = new Car(id, mileage, mpg, cost, salesPrice);
+            return car;
+            
+        } else {
+            return null;
+        }
 	}
 	
 	public double getAverageMpg() {
