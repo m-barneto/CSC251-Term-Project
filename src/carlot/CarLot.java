@@ -16,11 +16,8 @@ public class CarLot {
 
 	public CarLot(int capacity) {
 		this.capacity = capacity;
-		System.out.println("AAAAA");
 		this.database = new Database();
-		System.out.println("BBBB");
 		this.inventory = this.database.getCars();
-		System.out.println("CCCCCC");
 	}
 	public void addCar(String id, int mileage, int mpg, double cost, double salesPrice) {
 		if (numberOfCars < capacity) {
@@ -114,5 +111,10 @@ public class CarLot {
 		}
 		return profit;
 	}
-	
+
+	public void clear() {
+		this.database.clear();
+		this.inventory = this.database.getCars();
+		this.numberOfCars = 0;
+	}
 }

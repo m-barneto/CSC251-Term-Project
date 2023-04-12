@@ -3,6 +3,7 @@ package carlot;
 public class CarLotTester {
 	public static void main(String[] args) {
 		CarLot lot = new CarLot();
+		lot.clear();
 		lot.addCar("test1", 10000, 30, 12500.0D, 17500.0D);
 		lot.addCar("test2", 10000, 10, 10000D, 10000D);
 		lot.addCar("test3", 12000, 20, 12000D, 12000D);

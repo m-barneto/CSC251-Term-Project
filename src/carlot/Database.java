@@ -23,10 +23,20 @@ public class Database {
                     "priceSold NUMBER," +
                     "profit NUMBER);");
 
-            stmt.executeUpdate("DELETE FROM cars;");
             conn.close();
         } catch(Exception e) {
-            System.out.println(e);
+            e.printStackTrace();
+        }
+    }
+
+    public void clear() {
+        try {
+            Connection conn = DbConnection.getConnection();
+            Statement stmt = conn.createStatement();
+
+            stmt.executeUpdate("DELETE FROM cars;");
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
@@ -43,7 +53,7 @@ public class Database {
             conn.close();
             return cars;
         } catch (Exception e) {
-            System.out.println(e);
+            e.printStackTrace();
             return null;
         }
     }
@@ -63,7 +73,7 @@ public class Database {
             ps.executeUpdate();
             conn.close();
         } catch (Exception e) {
-            System.out.println(e);
+            e.printStackTrace();
         }
     }
 
@@ -82,7 +92,7 @@ public class Database {
             ps.executeUpdate();
             conn.close();
         } catch (Exception e) {
-            System.out.println(e);
+            e.printStackTrace();
         }
     }
 }
