@@ -1,5 +1,8 @@
 package carlot;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -69,43 +72,52 @@ public class CarLot {
 	}
 	
 	public Car getCarWithBestMPG() throws SQLException {
-		
-        String query = "SELECT * FROM Car ORDER BY mpg DESC LIMIT 1";
-        Statement stmt = conn.createStatement();
-        ResultSet rs = stmt.executeQuery(query);
+        try {
+            String query = "SELECT * FROM Car ORDER BY mpg DESC LIMIT 1";
+            Statement stmt = DbConnection.getConnection().createStatement();
+            ResultSet rs = stmt.executeQuery(query);
 
-        if (rs.next()) {
-        	
-            String id = rs.getString("id");
-            int mileage = rs.getInt("mileage");
-            int mpg = rs.getInt("mpg");
-            double cost = rs.getDouble("cost");
-            double salesPrice = rs.getDouble("sales_price");
+            if (rs.next()) {
 
-            Car car = new Car(id, mileage, mpg, cost, salesPrice);
-            return car;
-            
-        } else {
+                String id = rs.getString("id");
+                int mileage = rs.getInt("mileage");
+                int mpg = rs.getInt("mpg");
+                double cost = rs.getDouble("cost");
+                double salesPrice = rs.getDouble("sales_price");
+
+                Car car = new Car(id, mileage, mpg, cost, salesPrice);
+                return car;
+
+            } else {
+                return null;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
             return null;
         }
 	}
 	
-	public Car getCarWithHighestMileage() throws SQLException {
-        String query = "SELECT * FROM Car ORDER BY mileage DESC LIMIT 1";
-        Statement stmt = conn.createStatement();
-        ResultSet rs = stmt.executeQuery(query);
+	public Car getCarWithHighestMileage() {
+        try {
+            String query = "SELECT * FROM Car ORDER BY mileage DESC LIMIT 1";
+            Statement stmt = DbConnection.getConnection().createStatement();
+            ResultSet rs = stmt.executeQuery(query);
 
-        if (rs.next()) {
-            String id = rs.getString("id");
-            int mileage = rs.getInt("mileage");
-            int mpg = rs.getInt("mpg");
-            double cost = rs.getDouble("cost");
-            double salesPrice = rs.getDouble("sales_price");
+            if (rs.next()) {
+                String id = rs.getString("id");
+                int mileage = rs.getInt("mileage");
+                int mpg = rs.getInt("mpg");
+                double cost = rs.getDouble("cost");
+                double salesPrice = rs.getDouble("sales_price");
 
-            Car car = new Car(id, mileage, mpg, cost, salesPrice);
-            return car;
-            
-        } else {
+                Car car = new Car(id, mileage, mpg, cost, salesPrice);
+                return car;
+
+            } else {
+                return null;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
             return null;
         }
 	}
