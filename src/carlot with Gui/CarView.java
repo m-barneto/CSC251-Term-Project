@@ -11,7 +11,6 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -57,11 +56,7 @@ public class CarView extends Application {
 
 		column6.setCellValueFactory(new PropertyValueFactory<>("sold"));
 
-		TableColumn<Car, Double> column7 = new TableColumn<>("Profit");
-
-		column7.setCellValueFactory(new PropertyValueFactory<>("profit"));
-
-		carView.getColumns().addAll(column1, column2, column3, column4, column5, column6, column7);
+		carView.getColumns().addAll(column1, column2, column3, column4, column5, column6);
 		data.add(new Car("test1", 10000, 30, 12500.0D, 17500.0D));
 		data.add(new Car("test2", 12000, 20, 12000.0D, 15000.0D));
 		carView.setItems(data);
@@ -86,24 +81,27 @@ public class CarView extends Application {
 		addButton.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent e) {
+				// Needs to be fixed and work without iterating over every item
 				for (Car car : data) {
-					if (car.getId() == addId.getText()) {
-						Alert alert = new Alert(AlertType.WARNING, "There is already a car with that ID",
+					if (addId.getText().equals(car.getId())) {
+						Alert alert = new Alert(AlertType.WARNING, "There is already a car with this ID",
 								ButtonType.OK);
 						alert.showAndWait();
+						break;
 					} else {
-
 						data.add(new Car(addId.getText(), Integer.parseInt(addMileage.getText()),
 								Integer.parseInt(addMPG.getText()), Double.parseDouble(addCost.getText()),
 								Double.parseDouble(addPrice.getText())));
 
-						addId.clear();
-						addMileage.clear();
-						addMPG.clear();
-						addCost.clear();
-						addPrice.clear();
 					}
+
 				}
+
+				addId.clear();
+				addMileage.clear();
+				addMPG.clear();
+				addCost.clear();
+				addPrice.clear();
 			}
 		});
 
@@ -112,16 +110,13 @@ public class CarView extends Application {
 
 			@Override
 			public void handle(ActionEvent e) {
-				
-				for (Car car: data) {
-					if (car.getId()  == addId.getText())
-						car.setId("test4");
-				}
-				/*for (Car car : data) {
-					if (car.getId() == addId.getText())
+
+				for (Car car : data) {
+					if (addId.getText().equals(car.getId()))
 						car.sellCar(Double.parseDouble(addPrice.getText()));
-				}**/
-				carView.setItems(FXCollections.observableArrayList(data));
+				}
+				carView.refresh();
+				carView.setItems(data);
 
 				addId.clear();
 				addMileage.clear();
@@ -135,6 +130,22 @@ public class CarView extends Application {
 		profButton.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent e) {
+				// Needs to be fixed and work without iterating over every item
+				for (Car car : data) {
+					if (!addId.getText().equals(car.getId())) {
+						Alert alert = new Alert(AlertType.WARNING, "There is no car with this ID", ButtonType.OK);
+						alert.showAndWait();
+					} else {
+						if (!car.isSold()) {
+							Alert alert = new Alert(AlertType.WARNING, "This car is not sold", ButtonType.OK);
+							alert.showAndWait();
+						} else {
+							Alert alert = new Alert(AlertType.NONE, "Profit: " + car.getProfit(), ButtonType.OK);
+							alert.showAndWait();
+						}
+					}
+				}
+
 				addId.clear();
 				addMileage.clear();
 				addMPG.clear();
