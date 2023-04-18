@@ -71,7 +71,7 @@ public class CarLot {
 		return allCars;
 	}
 	
-	public Car getCarWithBestMPG() throws SQLException {
+	public Car getCarWithBestMPG() {
         try {
             String query = "SELECT * FROM Car ORDER BY mpg DESC LIMIT 1";
             Statement stmt = DbConnection.getConnection().createStatement();

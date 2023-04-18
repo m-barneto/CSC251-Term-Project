@@ -18,5 +18,4 @@ public class CarLotTester {
 		lot.sellCar("test1", 17000.0D);
 		System.out.println("Total profit after selling one car: " + lot.getTotalProfit());
 	}
-
 }
