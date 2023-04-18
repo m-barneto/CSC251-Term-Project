@@ -22,156 +22,159 @@ public class CarLotFX extends Application {
     CarLot lot = new CarLot();
 
     @Override
-    public void start(Stage stage) {
-        stage.setWidth(700);
+	public void start(Stage stage) {
+		stage.setWidth(700);
 
-        TableView<Car> carView = new TableView<Car>();
+		TableView<Car> carView = new TableView<Car>();
 
-        final ObservableList<Car> data = FXCollections.observableArrayList();
+		final ObservableList<Car> data = FXCollections.observableArrayList();
 
-        TableColumn<Car, String> column1 = new TableColumn<>("ID");
+		TableColumn<Car, String> column1 = new TableColumn<>("ID");
 
-        column1.setCellValueFactory(new PropertyValueFactory<>("id"));
+		column1.setCellValueFactory(new PropertyValueFactory<>("id"));
 
-        TableColumn<Car, Integer> column2 = new TableColumn<>("Mileage");
+		TableColumn<Car, Integer> column2 = new TableColumn<>("Mileage");
 
-        column2.setCellValueFactory(new PropertyValueFactory<>("mileage"));
+		column2.setCellValueFactory(new PropertyValueFactory<>("mileage"));
 
-        TableColumn<Car, Integer> column3 = new TableColumn<>("MPG");
+		TableColumn<Car, Integer> column3 = new TableColumn<>("MPG");
 
-        column3.setCellValueFactory(new PropertyValueFactory<>("mpg"));
+		column3.setCellValueFactory(new PropertyValueFactory<>("mpg"));
 
-        TableColumn<Car, Double> column4 = new TableColumn<>("Cost");
+		TableColumn<Car, Double> column4 = new TableColumn<>("Cost");
 
-        column4.setCellValueFactory(new PropertyValueFactory<>("cost"));
+		column4.setCellValueFactory(new PropertyValueFactory<>("cost"));
 
-        TableColumn<Car, Double> column5 = new TableColumn<>("Sales Prices");
+		TableColumn<Car, Double> column5 = new TableColumn<>("Sales Prices");
 
-        column5.setCellValueFactory(new PropertyValueFactory<>("salesPrice"));
+		column5.setCellValueFactory(new PropertyValueFactory<>("salesPrice"));
 
-        TableColumn<Car, Double> column6 = new TableColumn<>("Sold");
+		TableColumn<Car, Double> column6 = new TableColumn<>("Sold");
 
-        column6.setCellValueFactory(new PropertyValueFactory<>("sold"));
+		column6.setCellValueFactory(new PropertyValueFactory<>("sold"));
 
-        carView.getColumns().addAll(column1, column2, column3, column4, column5, column6);
-        data.add(new Car("test1", 10000, 30, 12500.0D, 17500.0D));
-        data.add(new Car("test2", 12000, 20, 12000.0D, 15000.0D));
-        carView.setItems(data);
+		carView.getColumns().addAll(column1, column2, column3, column4, column5, column6);
+		data.add(new Car("test1", 10000, 30, 12500.0D, 17500.0D));
+		data.add(new Car("test2", 12000, 20, 12000.0D, 15000.0D));
+		carView.setItems(data);
 
-        final TextField addId = new TextField();
-        addId.setPromptText("ID");
-        addId.setMaxWidth(column1.getPrefWidth());
-        final TextField addMileage = new TextField();
-        addMileage.setMaxWidth(column2.getPrefWidth());
-        addMileage.setPromptText("Mileage");
-        final TextField addMPG = new TextField();
-        addMPG.setMaxWidth(column3.getPrefWidth());
-        addMPG.setPromptText("MPG");
-        final TextField addCost = new TextField();
-        addCost.setMaxWidth(column4.getPrefWidth());
-        addCost.setPromptText("Cost");
-        final TextField addPrice = new TextField();
-        addPrice.setMaxWidth(column5.getPrefWidth());
-        addPrice.setPromptText("Price");
+		final TextField addId = new TextField();
+		addId.setPromptText("ID");
+		addId.setMaxWidth(column1.getPrefWidth());
+		final TextField addMileage = new TextField();
+		addMileage.setMaxWidth(column2.getPrefWidth());
+		addMileage.setPromptText("Mileage");
+		final TextField addMPG = new TextField();
+		addMPG.setMaxWidth(column3.getPrefWidth());
+		addMPG.setPromptText("MPG");
+		final TextField addCost = new TextField();
+		addCost.setMaxWidth(column4.getPrefWidth());
+		addCost.setPromptText("Cost");
+		final TextField addPrice = new TextField();
+		addPrice.setMaxWidth(column5.getPrefWidth());
+		addPrice.setPromptText("Price");
 
-        final Button addButton = new Button("Add");
-        addButton.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent e) {
-                // Needs to be fixed and work without iterating over every item
-                for (Car car : data) {
-                    if (addId.getText().equals(car.getId())) {
-                        Alert alert = new Alert(Alert.AlertType.WARNING, "There is already a car with this ID",
-                                ButtonType.OK);
-                        alert.showAndWait();
-                        break;
-                    } else {
-                        data.add(new Car(addId.getText(), Integer.parseInt(addMileage.getText()),
-                                Integer.parseInt(addMPG.getText()), Double.parseDouble(addCost.getText()),
-                                Double.parseDouble(addPrice.getText())));
+		final Button addButton = new Button("Add");
+		addButton.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent e) {
 
-                    }
+				Car car = data.stream().filter(c -> c.getId().equals(addId.getText())).findAny().orElse(null);
 
-                }
+				if (car == null) {
+					data.add(new Car(addId.getText(), Integer.parseInt(addMileage.getText()),
+							Integer.parseInt(addMPG.getText()), Double.parseDouble(addCost.getText()),
+							Double.parseDouble(addPrice.getText())));
+				} else {
+					Alert alert = new Alert(AlertType.WARNING, "There is already a car with this ID", ButtonType.OK);
+					alert.showAndWait();
+				}
 
-                addId.clear();
-                addMileage.clear();
-                addMPG.clear();
-                addCost.clear();
-                addPrice.clear();
-            }
-        });
+				addId.clear();
+				addMileage.clear();
+				addMPG.clear();
+				addCost.clear();
+				addPrice.clear();
+			}
+		});
 
-        final Button sellButton = new Button("Sell");
-        sellButton.setOnAction(new EventHandler<ActionEvent>() {
+		final Button sellButton = new Button("Sell");
+		sellButton.setOnAction(new EventHandler<ActionEvent>() {
 
-            @Override
-            public void handle(ActionEvent e) {
+			@Override
+			public void handle(ActionEvent e) {
 
-                for (Car car : data) {
-                    if (addId.getText().equals(car.getId()))
-                        car.sellCar(Double.parseDouble(addPrice.getText()));
-                }
-                carView.refresh();
-                carView.setItems(data);
+				Car car = data.stream().filter(c -> c.getId().equals(addId.getText())).findAny().orElse(null);
+				if (car != null) {
+					car.sellCar(Double.parseDouble(addPrice.getText()));
 
-                addId.clear();
-                addMileage.clear();
-                addMPG.clear();
-                addCost.clear();
-                addPrice.clear();
-            }
-        });
+				} else {
+					Alert alert = new Alert(AlertType.WARNING, "There is no car with this ID", ButtonType.OK);
+					alert.showAndWait();
+				}
 
-        final Button profButton = new Button("Profit");
-        profButton.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent e) {
-                // Needs to be fixed and work without iterating over every item
-                for (Car car : data) {
-                    if (!addId.getText().equals(car.getId())) {
-                        Alert alert = new Alert(Alert.AlertType.WARNING, "There is no car with this ID", ButtonType.OK);
-                        alert.showAndWait();
-                    } else {
-                        if (!car.isSold()) {
-                            Alert alert = new Alert(Alert.AlertType.WARNING, "This car is not sold", ButtonType.OK);
-                            alert.showAndWait();
-                        } else {
-                            Alert alert = new Alert(Alert.AlertType.NONE, "Profit: " + car.getProfit(), ButtonType.OK);
-                            alert.showAndWait();
-                        }
-                    }
-                }
+				carView.refresh();
+				carView.setItems(data);
 
-                addId.clear();
-                addMileage.clear();
-                addMPG.clear();
-                addCost.clear();
-                addPrice.clear();
-            }
-        });
+				addId.clear();
+				addMileage.clear();
+				addMPG.clear();
+				addCost.clear();
+				addPrice.clear();
+			}
+		});
 
-        carView.getSelectionModel().selectedItemProperty().addListener((obs, oldVal, newVal) -> {
-            if (newVal != null) {
-                addId.setText(newVal.getId());
-                addMileage.setText(Integer.toString(newVal.getMileage()));
-                addMPG.setText(Integer.toString(newVal.getMpg()));
-                addCost.setText(Double.toString(newVal.getCost()));
-                addPrice.setText(Double.toString(newVal.getSalesPrice()));
-            }
-        });
+		final Button profButton = new Button("Profit");
+		profButton.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent e) {
+				// Needs to be fixed and work without iterating over every item
 
-        hb.getChildren().addAll(addId, addMileage, addMPG, addCost, addPrice, addButton, sellButton, profButton);
-        hb.setSpacing(3);
+				Car car = data.stream().filter(c -> c.getId().equals(addId.getText())).findAny().orElse(null);
+				if (car == null) {
+					Alert alert = new Alert(AlertType.WARNING, "There is no car with this ID", ButtonType.OK);
+					alert.showAndWait();
+				} else {
+					if (!car.isSold()) {
+						Alert alert = new Alert(AlertType.WARNING, "This car is not sold", ButtonType.OK);
+						alert.showAndWait();
+					} else {
+						Alert alert = new Alert(AlertType.NONE, "Profit: " + car.getProfit(), ButtonType.OK);
+						alert.showAndWait();
+					}
 
-        final VBox vbox = new VBox(carView);
+				}
 
-        vbox.getChildren().addAll(hb);
+				addId.clear();
+				addMileage.clear();
+				addMPG.clear();
+				addCost.clear();
+				addPrice.clear();
+			}
+		});
 
-        Scene scene = new Scene(vbox);
+		carView.getSelectionModel().selectedItemProperty().addListener((obs, oldVal, newVal) -> {
+			if (newVal != null) {
+				addId.setText(newVal.getId());
+				addMileage.setText(Integer.toString(newVal.getMileage()));
+				addMPG.setText(Integer.toString(newVal.getMpg()));
+				addCost.setText(Double.toString(newVal.getCost()));
+				addPrice.setText(Double.toString(newVal.getSalesPrice()));
+			}
+		});
 
-        stage.setScene(scene);
+		hb.getChildren().addAll(addId, addMileage, addMPG, addCost, addPrice, addButton, sellButton, profButton);
+		hb.setSpacing(3);
 
-        stage.show();
-    }
+		final VBox vbox = new VBox(carView);
+
+		vbox.getChildren().addAll(hb);
+
+		Scene scene = new Scene(vbox);
+
+		stage.setScene(scene);
+
+		stage.show();
+	}
+
 }
