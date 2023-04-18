@@ -128,8 +128,7 @@ public class CarLotFX extends Application {
 		profButton.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent e) {
-				// Needs to be fixed and work without iterating over every item
-
+				
 				Car car = data.stream().filter(c -> c.getId().equals(addId.getText())).findAny().orElse(null);
 				if (car == null) {
 					Alert alert = new Alert(AlertType.WARNING, "There is no car with this ID", ButtonType.OK);
