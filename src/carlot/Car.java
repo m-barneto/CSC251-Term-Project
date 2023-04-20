@@ -1,6 +1,6 @@
 package carlot;
-
 import java.util.Scanner;
+//Preprocessor
 
 public class Car {
     private String id;
@@ -11,6 +11,7 @@ public class Car {
     private boolean sold;
     private double priceSold;
     private double profit;
+    //Private Member Variables
 
     public Car() {
         this.setId(null);
@@ -22,6 +23,7 @@ public class Car {
         this.setPriceSold(-1);
         this.setProfit(-1);
     }
+    //Default Constructor
 
     public Car(String id, int mileage, int mpg, double cost, double salesPrice) {
         this();
@@ -31,6 +33,7 @@ public class Car {
         this.setCost(cost);
         this.setSalesPrice(salesPrice);
     }
+    //Overloaded Constructor
 
     public Car(String aCSVString) {
         this();
@@ -46,6 +49,7 @@ public class Car {
         this.setProfit(s.nextDouble());
         s.close();
     }
+    //Overloaded Constructor
 
     public String toString() {
 
@@ -57,53 +61,56 @@ public class Car {
 
         return printable;
     }
+    //Takes Private Members and convert's it to a String, Printable which it returns
 
     public String toCSVString() {
         return String.format("%s, %6d, %3d, %4s, %5.2f, %5.2f, %5.2f",
                 this.getId(), this.getMileage(), this.getMpg(), this.isSold(), this.getCost(), this.getSalesPrice(), this.getPriceSold(), this.getProfit());
     }
+    //Returns a String containing the private member variables as text to be saved in a text file
 
     public void sellCar(double priceSold) {
         this.setSold(true);
         this.setPriceSold(priceSold);
         this.setProfit(this.getPriceSold()-this.getCost());
     }
-
+    //Sets the sold boolean variable to true, Sets the Price sold variable to the priceSold argument, and sets the Profit Variable to the difference of the price sold and cost
     public int compareMPG(Car otherCar) { return this.getMpg() - otherCar.getMpg(); }
-
+    //Returns the difference in MPG
     public int compareMileage(Car otherCar) { return this.getMileage() - otherCar.getMileage(); }
-
+    //Returns the difference in MPG
     public double compareSalesPrice(Car otherCar) { return this.getSalesPrice() - otherCar.getSalesPrice(); }
-
+    //Returns the difference in MPG
     public String getId() { return id; }
-
+    //Returns ID
     public void setId(String id) { this.id = id; }
-
+    //Sets ID
     public int getMileage() { return mileage; }
-
+    //Returns Mileage
     public void setMileage(int mileage) { this.mileage = mileage; }
-
+    //Sets Mileage
     public int getMpg() { return mpg; }
-
+    //Returns MPG
     public void setMpg(int mpg) { this.mpg = mpg; }
-
+    //Sets MPG
     public double getCost() { return cost; }
-
+    //Returns Cost
     public void setCost(double cost) { this.cost = cost; }
-
+    //Sets Cost
     public double getSalesPrice() { return salesPrice; }
-
+    //Returns Price
     public void setSalesPrice(double salesPrice) { this.salesPrice = salesPrice; }
-
+    //Sets Sales Price
     public boolean isSold() { return sold; }
-
+    //Returns Sold
     public void setSold(boolean sold) { this.sold = sold; }
-
+    //Sets Sold
     public double getPriceSold() { return priceSold; }
-
+    //Returns Price Sold
     public void setPriceSold(double priceSold) { this.priceSold = priceSold; }
-
+    //Sets Price Sold
     public double getProfit() { return profit; }
-
+    //Returns Profit
     public void setProfit(double profit) { this.profit = profit; }
+    //Sets Profit
 }
