@@ -44,8 +44,8 @@ public class CarLot {
 	//Returns all cars in the array list in a car array
 	
 	public Car findCarByIdentifier(String identifier) {
-		for (int x = 0; x < this.inventory.size(); x++) {
-			Car aCar = this.inventory.get(x);
+		for (int i = 0; x < this.inventory.size(); i++) {
+			Car aCar = this.inventory.get(i);
 			if (aCar.getId().equals(identifier)) {
 				return aCar;
 			}
@@ -140,7 +140,7 @@ public class CarLot {
 	}
 	//returns the average MPG of all cars in array list
 	public double getTotalProfit() {
-		double profit = 0D;
+		double profit = 0.0D;
 		for (int i = 0; i < numberOfCars; i++) {
 			Car aCar = this.inventory.get(i);
 			profit += (aCar.isSold()?aCar.getProfit():0);
