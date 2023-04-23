@@ -1,17 +1,17 @@
 package carlot;
 import java.sql.*;
 import java.util.ArrayList;
+//Preprocesser
 
 public class Database {
     private Connection conn;
-
     private String connUrl;
-
+//Private Member Variables
+    
     public Database() {
         try {
             Connection conn = DbConnection.getConnection();
             Statement stmt = conn.createStatement();
-
             stmt.executeUpdate(
                     "CREATE TABLE IF NOT EXISTS cars (" +
                     "car_id STRING PRIMARY KEY," +
@@ -28,18 +28,19 @@ public class Database {
             e.printStackTrace();
         }
     }
-
+//Creates a statement that creates a Database
     public void clear() {
         try {
             Connection conn = DbConnection.getConnection();
             Statement stmt = conn.createStatement();
-
             stmt.executeUpdate("DELETE FROM cars;");
+    
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
-
+//Creates a statement that removes all cars from the database
+    
     public ArrayList<Car> getCars() {
         ArrayList<Car> cars = new ArrayList<>();
         try {
@@ -57,7 +58,7 @@ public class Database {
             return null;
         }
     }
-
+//Creates a statement to get each car and its data from the database, and add them to an ArrayList which the function returns
     public void addCar(Car car) {
         try {
             Connection conn = DbConnection.getConnection();
@@ -76,7 +77,7 @@ public class Database {
             e.printStackTrace();
         }
     }
-
+//Creates a Statement that adds a car and its data into the database
     public void updateCar(Car car) {
         try {
             Connection conn = DbConnection.getConnection();
@@ -95,4 +96,5 @@ public class Database {
             e.printStackTrace();
         }
     }
+//Creates a Statement that updates the data for a specific car in the database
 }
