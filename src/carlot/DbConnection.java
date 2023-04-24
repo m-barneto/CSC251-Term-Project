@@ -15,8 +15,7 @@ public class DbConnection {
     }
     public static Connection getConnection() {
         try {
-    		Connection conn = DriverManager.getConnection("jdbc:sqlite:inventory.db");
-            return conn;
+    		return DriverManager.getConnection("jdbc:sqlite:inventory.db");
         } catch (SQLException e) {
             e.printStackTrace();
             return null;

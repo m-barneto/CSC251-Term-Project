@@ -8,7 +8,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 //Preprocesser
@@ -17,16 +16,16 @@ public class CarLotFX extends Application {
     public static void main(String[] args) {
         launch(args);
     }
-//Launchs JavaFx
+    //Launchs JavaFx
     final HBox hb = new HBox();
     CarLot lot = new CarLot();
-//Member Variables
+    //Member Variables
     @Override
 	public void start(Stage stage) {
 		stage.setWidth(700);
-	//Creates Stage
+	    //Creates Stage
 		TableView<Car> carView = new TableView<Car>();
-	//Creates TableView to hold cars data
+	    //Creates TableView to hold cars data
 		final ObservableList<Car> data = FXCollections.observableArrayList();
 
 		TableColumn<Car, String> column1 = new TableColumn<>("ID");
@@ -52,13 +51,15 @@ public class CarLotFX extends Application {
 		TableColumn<Car, Double> column6 = new TableColumn<>("Sold");
 
 		column6.setCellValueFactory(new PropertyValueFactory<>("sold"));
-	//Creates columns for each data type
+	    //Creates columns for each data type
 		carView.getColumns().addAll(column1, column2, column3, column4, column5, column6);
-	//Adds the columns to the TableView carView
-		data.add(new Car("test1", 10000, 30, 12500.0D, 17500.0D));
-		data.add(new Car("test2", 12000, 20, 12000.0D, 15000.0D));
+	    //Adds the columns to the TableView carView
+        //lot.clear();
+        //lot.addCar("test1", 10000, 30, 12500.0D, 17500.0D);
+        //lot.addCar("test2", 12000, 20, 12000.0D, 15000.0D);
+        data.addAll(lot.getCars());
 		carView.setItems(data);
-	//Adds Cars to the table
+	    //Adds Cars to the table
 		final TextField addId = new TextField();
 		addId.setPromptText("ID");
 		addId.setMaxWidth(column1.getPrefWidth());
@@ -74,7 +75,7 @@ public class CarLotFX extends Application {
 		final TextField addPrice = new TextField();
 		addPrice.setMaxWidth(column5.getPrefWidth());
 		addPrice.setPromptText("Price");
-	//Creates TextFields for the different car data
+	    //Creates TextFields for the different car data
 		final Button addButton = new Button("Add");
 		addButton.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
@@ -84,10 +85,13 @@ public class CarLotFX extends Application {
 
 				if (car == null) {
 					data.add(new Car(addId.getText(), Integer.parseInt(addMileage.getText()),
-							Integer.parseInt(addMPG.getText()), Double.parseDouble(addCost.getText()),
-							Double.parseDouble(addPrice.getText())));
+                            Integer.parseInt(addMPG.getText()), Double.parseDouble(addCost.getText()),
+                            Double.parseDouble(addPrice.getText())));
+                    lot.addCar(addId.getText(), Integer.parseInt(addMileage.getText()),
+                            Integer.parseInt(addMPG.getText()), Double.parseDouble(addCost.getText()),
+                            Double.parseDouble(addPrice.getText()));
 				} else {
-					Alert alert = new Alert(AlertType.WARNING, "There is already a car with this ID", ButtonType.OK);
+					Alert alert = new Alert(Alert.AlertType.WARNING, "There is already a car with this ID", ButtonType.OK);
 					alert.showAndWait();
 				}
 
@@ -98,7 +102,7 @@ public class CarLotFX extends Application {
 				addPrice.clear();
 			}
 		});
-	//Creates Button to add a new car to the table from the TextFields and then clears the TextFields
+	    //Creates Button to add a new car to the table from the TextFields and then clears the TextFields
 
 		final Button sellButton = new Button("Sell");
 		sellButton.setOnAction(new EventHandler<ActionEvent>() {
@@ -109,9 +113,10 @@ public class CarLotFX extends Application {
 				Car car = data.stream().filter(c -> c.getId().equals(addId.getText())).findAny().orElse(null);
 				if (car != null) {
 					car.sellCar(Double.parseDouble(addPrice.getText()));
+                    lot.sellCar(car.getId(), Double.parseDouble(addPrice.getText()));
 
 				} else {
-					Alert alert = new Alert(AlertType.WARNING, "There is no car with this ID", ButtonType.OK);
+					Alert alert = new Alert(Alert.AlertType.WARNING, "There is no car with this ID", ButtonType.OK);
 					alert.showAndWait();
 				}
 
@@ -125,7 +130,7 @@ public class CarLotFX extends Application {
 				addPrice.clear();
 			}
 		});
-	//Creates a Button that Updates the car at the indicated id to indicate that it is sold, the price sold at, and the profit from selling it, and then clears the TextFields
+	    //Creates a Button that Updates the car at the indicated id to indicate that it is sold, the price sold at, and the profit from selling it, and then clears the TextFields
 		final Button profButton = new Button("Profit");
 		profButton.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
@@ -133,14 +138,14 @@ public class CarLotFX extends Application {
 				
 				Car car = data.stream().filter(c -> c.getId().equals(addId.getText())).findAny().orElse(null);
 				if (car == null) {
-					Alert alert = new Alert(AlertType.WARNING, "There is no car with this ID", ButtonType.OK);
+					Alert alert = new Alert(Alert.AlertType.WARNING, "There is no car with this ID", ButtonType.OK);
 					alert.showAndWait();
 				} else {
 					if (!car.isSold()) {
-						Alert alert = new Alert(AlertType.WARNING, "This car is not sold", ButtonType.OK);
+						Alert alert = new Alert(Alert.AlertType.WARNING, "This car is not sold", ButtonType.OK);
 						alert.showAndWait();
 					} else {
-						Alert alert = new Alert(AlertType.NONE, "Profit: " + car.getProfit(), ButtonType.OK);
+						Alert alert = new Alert(Alert.AlertType.NONE, "Profit: " + car.getProfit(), ButtonType.OK);
 						alert.showAndWait();
 					}
 
@@ -153,7 +158,7 @@ public class CarLotFX extends Application {
 				addPrice.clear();
 			}
 		});
-	//Creates a Button that creates an alert giving the profit of the car with the id in the Id TextField
+	    //Creates a Button that creates an alert giving the profit of the car with the id in the Id TextField
 		carView.getSelectionModel().selectedItemProperty().addListener((obs, oldVal, newVal) -> {
 			if (newVal != null) {
 				addId.setText(newVal.getId());
@@ -163,24 +168,25 @@ public class CarLotFX extends Application {
 				addPrice.setText(Double.toString(newVal.getSalesPrice()));
 			}
 		});
-	//Adds the Data of a selected car to the its Matching TextField
+	    //Adds the Data of a selected car to the its Matching TextField
 		hb.getChildren().addAll(addId, addMileage, addMPG, addCost, addPrice, addButton, sellButton, profButton);
 		hb.setSpacing(3);
-	//Adds the buttons to the HBox
+	    //Adds the buttons to the HBox
 		final VBox vbox = new VBox(carView);
-	//Creates a vBox and adds the TableView carView to it
+	    //Creates a vBox and adds the TableView carView to it
 		vbox.getChildren().addAll(hb);
-	//Adds the HBox to the VBox
+	    //Adds the HBox to the VBox
 		Scene scene = new Scene(vbox);
-	//Creates a Scene with the VBox
-		scene.getStylesheets().add(getClass().getResource("stylesheet.css").toExternalForm());
-	//Stylesheet for JavaFX
+	    //Creates a Scene with the VBox
+		//scene.getStylesheets().add(getClass().getResource("resources/stylesheet.css").toExternalForm());
+        scene.getStylesheets().add("stylesheet.css");
+	    //Stylesheet for JavaFX
 		stage.setTitle("GROUP 1 CARLOT");
-	//Title for JavaFX
+	    //Title for JavaFX
 		stage.setScene(scene);
-	//adds the scene to the stage
+	    //adds the scene to the stage
 		stage.show();
-	//Displays the Stage
+	    //Displays the Stage
 	}
 
 }

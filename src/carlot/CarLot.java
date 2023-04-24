@@ -7,23 +7,25 @@ import java.util.Collections;
 //Preprocessor
 
 public class CarLot {
+    //Private Member Variables
 	private ArrayList<Car> inventory;
 	private int numberOfCars = 0;
 	private int capacity = 0;
 	private Database database;
-	//Private Member Variables
-	
+
+    //Default Constructor
 	public CarLot() { 
 		this(100); 
 	}
-	//Default Constructor
 
+    //Overloaded Constructor
 	public CarLot(int capacity) {
 		this.capacity = capacity;
 		this.database = new Database();
 		this.inventory = this.database.getCars();
 	}
-	//Overloaded Constructor
+
+    //Function Creates a car with the the arguments and then adds it to the array list
 	public void addCar(String id, int mileage, int mpg, double cost, double salesPrice) {
 		if (numberOfCars < capacity) {
 			Car car = new Car(id, mileage, mpg, cost, salesPrice);
@@ -32,8 +34,8 @@ public class CarLot {
 			numberOfCars++;
 		}
 	}
-	//Function Creates a car with the the agruements and then adds it to the array list
-	
+
+    //Returns all cars in the array list in a car array
 	public Car[] getInventory() {
 		Car[] allCars = new Car[numberOfCars];
 		for (int i = 0; i < numberOfCars; i++) {
@@ -41,10 +43,10 @@ public class CarLot {
 		}
 		return allCars;
 	}
-	//Returns all cars in the array list in a car array
-	
+
+    //Returns car with matching identifier argument or null if no match
 	public Car findCarByIdentifier(String identifier) {
-		for (int i = 0; x < this.inventory.size(); i++) {
+		for (int i = 0; i < this.inventory.size(); i++) {
 			Car aCar = this.inventory.get(i);
 			if (aCar.getId().equals(identifier)) {
 				return aCar;
@@ -52,8 +54,8 @@ public class CarLot {
 		}
 		return null;
 	}
-	//Returns car with matching identifier arguement or null if no match
-	
+
+    //Takes identifier argument and updates the matching cars sold & priceSold member variables
 	public void sellCar(String identifier, double priceSold) throws IllegalArgumentException {
 		Car aCar = this.findCarByIdentifier(identifier);
 		if (aCar != null) {
@@ -64,11 +66,16 @@ public class CarLot {
 			throw new IllegalArgumentException("No car with identifier " + identifier);
 		}
 	}
-	//Takes identifier arguement and updates the matching cars sold & priceSold member variables
-	
+
+    //Returns an arraylist of all cars in db
+    public ArrayList<Car> getCars() {
+        return this.database.getCars();
+    }
+
+    //Returns an array of cars in the order of entry
 	public Car[] getCarsInOrderOfEntry() { return (Car[]) this.inventory.toArray(); }
-	//Returns an array of cars in the order of entry
-	
+
+    //Returns a list of cars sorted by MPG
 	public ArrayList<Car> getCarsSortedByMPG() {
 		ArrayList<Car> allCars = new ArrayList<>();
 		for (int i = 0; i < numberOfCars; i++) {
@@ -77,7 +84,8 @@ public class CarLot {
 		Collections.sort(allCars, (Car c1, Car c2) -> c2.compareMPG(c1));
 		return allCars;
 	}
-	//returns a list of cars sorted by MPG
+
+    //Uses a Database Query to find the car with the best MPG
 	public Car getCarWithBestMPG() {
         try {
             String query = "SELECT * FROM Car ORDER BY mpg DESC LIMIT 1";
@@ -102,9 +110,9 @@ public class CarLot {
             e.printStackTrace();
             return null;
         }
-	//Uses a Database Query to fint the car with the best MPG
 	}
-	
+
+    //Uses a Database Query to find the car with the Highest Mileage
 	public Car getCarWithHighestMileage() {
         try {
             String query = "SELECT * FROM Car ORDER BY mileage DESC LIMIT 1";
@@ -129,7 +137,8 @@ public class CarLot {
             return null;
         }
 	}
-	//Uses a Database Query to fint the car with the Highest Mileage
+
+    //returns the average MPG of all cars in array list
 	public double getAverageMpg() {
 		double totalMpg = 0D;
 		for (int i = 0; i < numberOfCars; i++) {
@@ -138,7 +147,8 @@ public class CarLot {
 		}
 		return totalMpg / this.numberOfCars;
 	}
-	//returns the average MPG of all cars in array list
+
+    //Returns Profit From all Cars Sold
 	public double getTotalProfit() {
 		double profit = 0.0D;
 		for (int i = 0; i < numberOfCars; i++) {
@@ -147,11 +157,11 @@ public class CarLot {
 		}
 		return profit;
 	}
-	//Returns Profit From all Cars Sold
+
+    //Clears all Cars in Database
 	public void clear() {
 		this.database.clear();
 		this.inventory = this.database.getCars();
 		this.numberOfCars = 0;
 	}
-	//Clears all Cars in Database
 }

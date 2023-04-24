@@ -4,10 +4,11 @@ import java.util.ArrayList;
 //Preprocesser
 
 public class Database {
+    //Private Member Variables
     private Connection conn;
     private String connUrl;
-//Private Member Variables
-    
+
+    //Creates a Database
     public Database() {
         try {
             Connection conn = DbConnection.getConnection();
@@ -28,7 +29,8 @@ public class Database {
             e.printStackTrace();
         }
     }
-//Creates a statement that creates a Database
+
+    //Removes all cars from the database
     public void clear() {
         try {
             Connection conn = DbConnection.getConnection();
@@ -39,8 +41,8 @@ public class Database {
             e.printStackTrace();
         }
     }
-//Creates a statement that removes all cars from the database
-    
+
+    //Gets each car and its data from the database, and add them to an ArrayList which the function returns
     public ArrayList<Car> getCars() {
         ArrayList<Car> cars = new ArrayList<>();
         try {
@@ -58,7 +60,8 @@ public class Database {
             return null;
         }
     }
-//Creates a statement to get each car and its data from the database, and add them to an ArrayList which the function returns
+
+    //Adds a car and its data into the database
     public void addCar(Car car) {
         try {
             Connection conn = DbConnection.getConnection();
@@ -77,7 +80,8 @@ public class Database {
             e.printStackTrace();
         }
     }
-//Creates a Statement that adds a car and its data into the database
+
+    //Updates the data for a specific car in the database
     public void updateCar(Car car) {
         try {
             Connection conn = DbConnection.getConnection();
@@ -96,5 +100,4 @@ public class Database {
             e.printStackTrace();
         }
     }
-//Creates a Statement that updates the data for a specific car in the database
 }
