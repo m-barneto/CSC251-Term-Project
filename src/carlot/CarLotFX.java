@@ -173,6 +173,10 @@ public class CarLotFX extends Application {
 	//Adds the HBox to the VBox
 		Scene scene = new Scene(vbox);
 	//Creates a Scene with the VBox
+		scene.getStylesheets().add("stylesheet.css");
+	//Stylesheet for JavaFX
+		stage.setTitle("GROUP 1 CARLOT");
+	//Title for JavaFX
 		stage.setScene(scene);
 	//adds the scene to the stage
 		stage.show();
